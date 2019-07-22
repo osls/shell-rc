@@ -2,8 +2,8 @@
 
 # Generic
 set fish_greeting (fortune)
-set EDITOR gvim
-set VISUAL gvim
+set EDITOR nvim
+set VISUAL nvim
 # ---
 set -x LANG zh_CN.UTF-8
 set -x LANGUAGE $LANG
@@ -51,51 +51,41 @@ alias ,,,,,='cd ../../../../..'
 #alias -='cd -'
 alias ed='emacs -nw'
 alias ex='emacs'
-alias vv='gvim'
+alias vv='nvim'
 alias pp='jupyter notebook'
 alias py='ipython3'
 alias pyss='python -m SimpleHTTPServer'
 alias pipu='sudo pip install --upgrade'
-alias jps='jupyter notebook --no-browser --port=8899' # server
-alias jpc='ssh -N -f -L localhost:8888:localhost:8899 mw..@svr' # fill real info here!!!
+alias jps='jupyter notebook --no-browser --port=9999' # server
+alias jpc='ssh -N -f -L localhost:8888:localhost:9999 mw@10.110.1.xx' # fill real info here!!!
+# run jps on the sever, and copy the URL the sever given
+# run jpc on the client, enter the server psw nowhere
+# paste the server URL into a client web browser, change 9999 to 8888, and visit the new URL page
 alias jpcvt='jupyter nbconvert --to'
 alias mm='tmux -2 attach'
 alias sskg='ssh-keygen'
 # use sskg to generate id_rsa&id_ras.pub, and copy .pub to ~/.ssh/authorized_keys on server.
-#alias qg='xmodmap ~/.Q-layout/Q.xmodmap'
-#alias qc='sudo loadkeys ~/.Q-layout/Q-iso15.kmap'
-#alias gb="go build -compiler gccgo -gccgoflags='-O3' "
 alias mc="pandoc -f markdown+lhs slides.md -o slides.html -t dzslides -i -s -S --toc"
 alias uu="sudo apt-get update -y; sudo apt-get upgrade -y; sudo apt-get autoremove --purge -y; sudo cp -f /home/mw/.emacs.d/emacs.desktop /usr/share/applications/"
 
 # Function
-function kc
-  echo "::kotlinc $argv.kt -include-runtime -d $argv.jar"
-  kotlinc $argv.kt -include-runtime -d $argv.jar
-end
-
-function kr
-  echo "::java -jar $argv[1].jar $argv[2..-1]"
-  java -jar $argv[1].jar $argv[2..-1]
-end
-
 function lc
   ls -ah --color=always $argv | less -R
 end
 
 function vi
-    if command --search vim >/dev/null do
-        vim  $argv[1..-1]
+    if command --search nvim >/dev/null do
+        nvim  $argv[1..-1]
     else
-        nvim $argv[1..-1]
+        vim $argv[1..-1]
     end
 end
 
 function vd
-    if command --search vim >/dev/null do
-        vimdiff $argv[1..-1]
-    else
+    if command --search nvim >/dev/null do
         nvim -d $argv[1..-1]
+    else
+        vimdiff $argv[1..-1]
     end
 end
 
